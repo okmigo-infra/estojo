@@ -95,7 +95,7 @@ body { margin:0; background:var(--bg); color:var(--tinta);
 .botao span { font-family:var(--mono); font-weight:600; font-size:11.5px;
   letter-spacing:.12em; text-transform:uppercase; color:var(--botao-txt) }
 /* ── a caixa de lista: serve «o que temos» e «avisos» ── */
-.lista { border:2px solid var(--grade); background:var(--papel) }
+.lista { border:2px solid var(--fraco); background:var(--papel) }
 .lista ol { margin:0; padding:0; list-style:none }
 .lista li { display:flex; gap:16px; align-items:baseline; padding:14px 18px;
   border-bottom:1px solid var(--linha) }
@@ -125,10 +125,10 @@ body { margin:0; background:var(--bg); color:var(--tinta);
    dá para arrastar desapareceu** — com o verificador dizendo ✅, porque contraste
    não é layout. Foi ABRIR a tela que pegou. */
 .obra { flex:0 0 min(78%,21rem); scroll-snap-align:start; display:flex;
-  flex-direction:column; background:var(--papel); border:1px solid var(--grade);
+  flex-direction:column; background:var(--papel); border:1px solid var(--fraco);
   border-radius:0 }
 .obra img { display:block; width:100%; aspect-ratio:4/3; object-fit:cover;
-  border-bottom:1px solid var(--grade) }
+  border-bottom:1px solid var(--fraco) }
 .obra .dizeres { padding:12px 14px 14px; display:flex; flex-direction:column;
   gap:6px; flex:1 }
 .obra p { margin:0; font-size:14.5px; line-height:1.45; font-weight:600 }
@@ -150,7 +150,7 @@ body { margin:0; background:var(--bg); color:var(--tinta);
   letter-spacing:.08em; text-transform:uppercase; color:var(--fraco) }
 .formulario .opcional { text-transform:none; letter-spacing:0 }
 .formulario input,.formulario textarea { font:inherit; font-size:15px; color:var(--tinta);
-  background:var(--papel); border:2px solid var(--grade); border-radius:0;
+  background:var(--papel); border:2px solid var(--fraco); border-radius:0;
   padding:11px 13px; width:100%; min-height:44px }
 .formulario textarea { resize:vertical; min-height:86px }
 .formulario button { width:auto; justify-self:start }
@@ -178,21 +178,19 @@ footer a { display:inline-flex; align-items:center; gap:8px; min-height:44px;
 </div></header>
 
 <main>
-  <!-- ⚠️ O traço de 2px entre faixas usa a MESMA `--grade` que reprova nos
-       campos, e aqui ele NÃO é declarado como objeto gráfico: separador de
-       seção não é informação nem controle (1.4.11 fala de "objeto gráfico
-       necessário para entender o conteúdo" e de limite de COMPONENTE). ⛔ Mas
-       é a peça que carrega o desenho inteiro — «o traço que faz a página
-       parecer construída em vez de empilhada» — e no escuro ela está em
-       2,8:1. Isento pela régua, quebrado pelo olho: os dois são verdade, e
-       quem for redesenhar precisa saber dos dois. -->
+  <!-- ⚠️ O traço de 2px entre faixas continua em `--grade` e NÃO é declarado
+       como objeto gráfico: separador de seção não é informação nem controle
+       (1.4.11 fala de "objeto gráfico necessário para entender o conteúdo" e
+       de limite de COMPONENTE). As molduras de componente (lista, cartão,
+       campo) saíram de `--grade` para `--fraco`. ⛔ O traço entre faixas segue
+       em 2,8:1 no escuro. Isento pela régua, quebrado pelo olho. -->
   <section class="faixa" id="tem"><div class="dentro">
     <div class="cabeca">
       <h2>O que temos</h2>
       <span class="ordinal"><b>01</b> / catálogo</span>
     </div>
     <div class="dupla">
-      <div class="lista" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py"><ol>
+      <div class="lista" data-papel="grafico"><ol>
         <li><span class="ordem">01</span>
           <p class="oque">Pão de fermentação natural, fornada às 7h e às 16h</p>
           <span class="fio" data-papel="ornamento"></span></li>
@@ -208,14 +206,14 @@ footer a { display:inline-flex; align-items:center; gap:8px; min-height:44px;
       </ol></div>
       <div>
         <div class="carrossel">
-          <article class="obra" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py">
+          <article class="obra" data-papel="grafico">
             <img alt="reprodução: aqui entra a foto do trabalho" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%23312512'/%3E%3Ccircle cx='2' cy='1.5' r='.9' fill='%23F0A94B' opacity='.5'/%3E%3C/svg%3E">
             <div class="dizeres">
               <p>Fornada da manhã</p>
               <span class="conta">01 / 07</span>
             </div>
           </article>
-          <article class="obra" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py">
+          <article class="obra" data-papel="grafico">
             <img alt="reprodução: aqui entra a foto do trabalho" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%23382F23'/%3E%3Crect x='.6' y='1' width='2.8' height='1' fill='%2379B58C' opacity='.5'/%3E%3C/svg%3E">
             <div class="dizeres">
               <p>Bolo de fubá inteiro</p>
@@ -224,7 +222,7 @@ footer a { display:inline-flex; align-items:center; gap:8px; min-height:44px;
           </article>
           <!-- Obra SEM foto continua valendo: sai como cartão de texto do mesmo
                tamanho, e a fileira não abre buraco. -->
-          <article class="obra sem-foto" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py">
+          <article class="obra sem-foto" data-papel="grafico">
             <div class="dizeres">
               <p>Salgado para festa — cento de coxinha, risole e enroladinho</p>
               <span class="conta">03 / 07</span>
@@ -241,7 +239,7 @@ footer a { display:inline-flex; align-items:center; gap:8px; min-height:44px;
       <h2>Recados</h2>
       <span class="ordinal"><b>02</b> / o que é novo</span>
     </div>
-    <div class="lista" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py"><ol>
+    <div class="lista" data-papel="grafico"><ol>
       <li><span class="ordem">novo</span>
         <div class="oque"><p style="margin:0">Sexta a padaria abre às 6h — tem pão doce
           saindo do forno mais cedo por causa do feriado.</p>
@@ -251,7 +249,7 @@ footer a { display:inline-flex; align-items:center; gap:8px; min-height:44px;
           de semana.</p><time>28 de maio</time></div></li>
     </ol></div>
     <div class="carrossel">
-      <article class="obra recado" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py">
+      <article class="obra recado" data-papel="grafico">
         <img alt="reprodução: aqui entra a foto do trabalho" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%231E1913'/%3E%3Cpath d='M0 3 L2 .8 L4 3Z' fill='%23F0A94B' opacity='.4'/%3E%3C/svg%3E">
         <div class="dizeres">
           <p>Vitrine cheia às 7h05</p>
@@ -280,11 +278,11 @@ footer a { display:inline-flex; align-items:center; gap:8px; min-height:44px;
       <p class="recebido" data-papel="grafico">Recebemos. A Aurora responde por aqui.</p>
       <form>
         <label>seu nome
-          <input type="text" value="Joana Prado" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py"></label>
+          <input type="text" value="Joana Prado" data-papel="grafico"></label>
         <label>telefone ou e-mail
-          <input type="text" value="joana@example.com" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py"></label>
+          <input type="text" value="joana@example.com" data-papel="grafico"></label>
         <label>o que você precisa <span class="opcional">(opcional)</span>
-          <textarea rows="3" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py">Queria encomendar um bolo para sábado.</textarea></label>
+          <textarea rows="3" data-papel="grafico">Queria encomendar um bolo para sábado.</textarea></label>
         <button class="botao" type="button" data-papel="grafico"><span>Enviar</span></button>
         <p class="rodape-form">Não tem conta? Não precisa — isto chega direto para
           quem cuida da padaria.</p>
