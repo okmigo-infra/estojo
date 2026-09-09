@@ -155,6 +155,10 @@ seis medidas e **nenhuma cor** — o relatório dizia «negocio 6», que se lê 
 
 ## As telas
 
+`negocio.html` contém uma proposta ainda não integrada ao produto. Veja
+[decisões e validação da página de negócio](NEGOCIO.md); `tokens/atual.json`
+continua sendo a referência extraída da produção.
+
 | tela | o que ela exercita |
 |---|---|
 | [`telas/negocio.html`](telas/negocio.html) | ⭐ **a superfície de maior alcance**: a página pública de um negócio, a única que um estranho abre sem conta. Faixas, caixa de lista, carrossel, contato e o formulário que cai em Recebidos. Paleta `forno` |

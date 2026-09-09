@@ -37,6 +37,8 @@
   --botao-txt: #141110;
   --tinte: #312512;   /* derivado: 13% do acento sobre o bg */
   --grade: #605C53;   /* derivado: 34% da tinta sobre o bg */
+  /* Proposta local: molduras necessarias, sem alterar os derivados. */
+  --borda-necessaria: var(--apoio);
   color-scheme: dark;
 }
 * { box-sizing: border-box }
@@ -60,7 +62,7 @@ body { margin:0; background:var(--bg); color:var(--tinta);
 .cabeca h2 { margin:0; font-size:clamp(26px,4.4vw,38px); font-weight:800;
   letter-spacing:-.025em; line-height:1.06; text-wrap:balance }
 .mono,.ordinal,.rot,.conta,footer .diz,.lista .ordem,.arraste {
-  font-family:var(--mono); font-size:11px; letter-spacing:.07em;
+  font-family:var(--mono); font-size:12px; letter-spacing:.07em;
   text-transform:uppercase; color:var(--fraco) }
 .ordinal { white-space:nowrap }
 .ordinal b { color:var(--acento); font-weight:500 }
@@ -74,16 +76,17 @@ body { margin:0; background:var(--bg); color:var(--tinta);
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
 .topo .cara { white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
 .topo nav { display:flex; gap:22px }
-.topo nav a { display:inline-flex; align-items:center; min-height:44px;
-  color:var(--tinta); text-decoration:none; font-family:var(--mono); font-size:11px;
+.topo nav a { display:inline-flex; align-items:center; min-height:44px; min-width:44px;
+  color:var(--tinta); text-decoration:none; font-family:var(--mono); font-size:12px;
   letter-spacing:.09em; text-transform:uppercase; font-weight:500;
   padding:3px 0; border-bottom:2px solid transparent; white-space:nowrap }
 .topo nav a:hover { border-bottom-color:var(--acento) }
-/* ⚠️ No estreito o menu de âncoras SOME e o botão fica: o que se perde é um
-   atalho para conteúdo logo abaixo; sem o botão perde-se o único caminho para
-   dentro do produto. E o `@` sai antes do nome — nome cortado é pior, o `@` está
-   na própria URL que a pessoa acabou de abrir. */
-@media (max-width:44rem) { .topo nav { display:none } }
+/* Atalhos em segunda linha quando o topo precisa de mais espaco. */
+@media (max-width:74rem) {
+ .topo .dentro { flex-wrap:wrap; gap:8px 14px }
+ .topo .quem { flex:1 }
+ .topo nav { flex-basis:100%; gap:14px; flex-wrap:wrap }
+}
 @media (max-width:34rem) { .topo .cara { display:none } }
 /* ⭐ Canto RETO: é o que faz esta página ler como editorial em vez de
    «aplicativo». ⚠️ Não vale para o app, que é arredondado — outra superfície,
@@ -92,29 +95,29 @@ body { margin:0; background:var(--bg); color:var(--tinta);
 .botao { display:inline-flex; align-items:center; justify-content:center;
   min-height:44px; border-radius:0; background:var(--acento); text-decoration:none;
   padding:8px 22px; white-space:nowrap; border:2px solid var(--acento); cursor:pointer }
-.botao span { font-family:var(--mono); font-weight:600; font-size:11.5px;
+.botao span { font-family:var(--mono); font-weight:600; font-size:12px;
   letter-spacing:.12em; text-transform:uppercase; color:var(--botao-txt) }
 /* ── a caixa de lista: serve «o que temos» e «avisos» ── */
-.lista { border:2px solid var(--grade); background:var(--papel) }
+.lista { border:1px solid var(--borda-necessaria); background:var(--papel) }
 .lista ol { margin:0; padding:0; list-style:none }
 .lista li { display:flex; gap:16px; align-items:baseline; padding:14px 18px;
   border-bottom:1px solid var(--linha) }
 .lista li:last-child { border-bottom:0 }
 .lista .fio { flex:1; min-width:12px; height:0; border-bottom:1px dotted var(--linha);
   align-self:center }
-.lista .ordem { flex:none; font-size:10.5px }
+.lista .ordem { flex:none; font-size:12px }
 .lista .oque { margin:0; max-width:var(--leitura) }
 .lista time { display:block; margin-top:5px; font-family:var(--mono);
-  font-size:10.5px; letter-spacing:.06em; color:var(--fraco) }
-/* ── o carrossel: encaixe do CSS, arraste do navegador, zero script ── */
+  font-size:12px; letter-spacing:.06em; color:var(--fraco) }
+/* Rolagem nativa; o script apenas acrescenta navegação quando há overflow. */
 .carrossel { display:flex; gap:var(--vao-junto); overflow-x:auto;
   scroll-snap-type:x mandatory; overscroll-behavior-x:contain;
   padding:3px 0 14px; scrollbar-width:thin; scrollbar-color:var(--apoio) transparent }
-.lista + .carrossel { margin-top:var(--vao-bloco) }
+.dupla { display:grid; gap:var(--vao-bloco); align-items:start }
+.dupla > * { min-width:0 }
 @media (min-width:62rem) {
   .dupla { display:grid; grid-template-columns:26rem minmax(0,1fr); gap:32px;
     align-items:start }
-  .dupla .lista + .carrossel { margin-top:0 }
 }
 /* ⭐ `min(78%,21rem)`: no celular um cartão ocupa 78% e o próximo aparece
    CORTADO — é o corte que ensina que dá para arrastar. */
@@ -124,33 +127,77 @@ body { margin:0; background:var(--bg); color:var(--tinta);
    14, o segundo cartão saiu inteiro da área visível e **o corte que ensina que
    dá para arrastar desapareceu** — com o verificador dizendo ✅, porque contraste
    não é layout. Foi ABRIR a tela que pegou. */
-.obra { flex:0 0 min(78%,21rem); scroll-snap-align:start; display:flex;
-  flex-direction:column; background:var(--papel); border:1px solid var(--grade);
+.obra { flex:0 0 min(78%,21rem); scroll-snap-align:start; scroll-snap-stop:always; display:flex;
+  flex-direction:column; background:var(--papel); border:1px solid var(--borda-necessaria);
   border-radius:0 }
 .obra img { display:block; width:100%; aspect-ratio:4/3; object-fit:cover;
   border-bottom:1px solid var(--grade) }
 .obra .dizeres { padding:12px 14px 14px; display:flex; flex-direction:column;
   gap:6px; flex:1 }
 .obra p { margin:0; font-size:14.5px; line-height:1.45; font-weight:600 }
-.obra .conta { margin-top:auto; font-size:10px }
+.obra .conta { margin-top:auto; font-size:12px }
 .obra.sem-foto p { font-size:15.5px; font-weight:500 }
-.arraste { display:block; margin-top:-6px }
-.recado time { font-family:var(--mono); font-size:10px; letter-spacing:.06em;
+.navegar-carrossel { display:flex; align-items:center; justify-content:space-between;
+  gap:14px; margin-top:14px; flex-wrap:wrap }
+.navegar-carrossel[hidden] { display:none }
+.navegar-carrossel p { margin:0; font-size:12px; color:var(--apoio) }
+.navegar-carrossel .acoes { display:flex; gap:8px }
+.navegar-carrossel button { min-width:44px; min-height:44px; padding:8px 12px;
+  border:1px solid var(--borda-necessaria); border-radius:0; background:var(--papel);
+  color:var(--tinta); font:inherit; cursor:pointer }
+.navegar-carrossel button[aria-disabled="true"] { cursor:default; border-style:dashed }
+/* Catálogo: título e ações pertencem à galeria, não ao rodapé da seção. */
+.galeria-cabeca { display:flex; align-items:center; justify-content:space-between;
+  gap:14px; min-height:44px; margin-bottom:14px }
+.galeria-cabeca h3 { margin:0; font-family:var(--mono); font-size:12px;
+  font-weight:500; letter-spacing:.07em; text-transform:uppercase; color:var(--apoio) }
+#tem .carrossel { scrollbar-width:auto }
+#tem .carrossel.com-controles { scrollbar-width:none }
+#tem .carrossel.com-controles::-webkit-scrollbar { display:none }
+#tem > .dentro { padding-bottom:clamp(30px,3.4vw,44px) }
+#tem .galeria-cabeca .navegar-carrossel { margin:0; flex-wrap:nowrap }
+#tem .navegar-carrossel button { display:grid; place-items:center; padding:0; opacity:1 }
+#tem .navegar-carrossel button span { color:var(--tinta); font:600 20px/1 var(--mono) }
+#tem .navegar-carrossel button:disabled { cursor:default; border-style:dashed;
+  background:var(--papel) }
+#tem .navegar-carrossel button:disabled span { color:var(--apoio) }
+#tem .obra.sem-foto .dizeres { padding:22px 20px; gap:28px }
+#tem .obra.sem-foto p { font-size:clamp(18px,2vw,22px); line-height:1.4;
+  font-weight:600; letter-spacing:-.015em; text-wrap:pretty }
+#tem .obra.no-inicio-trilho { box-shadow:inset 1px 0 var(--borda-necessaria) }
+@media (max-width:47.999rem) {
+  /* Permite que o último cartão alinhe à esquerda sem deixar o anterior à mostra. */
+  #tem .carrossel:has(.obra + .obra)::after { content:"";
+    flex:0 0 calc(22% - var(--vao-junto)) }
+}
+@media (min-width:48rem) {
+  #tem .obra { flex-basis:calc((100% - var(--vao-junto)) / 2) }
+}
+@media (max-width:61.999rem) {
+  .recado:only-child:has(img) { flex-basis:100%; display:grid;
+    grid-template-columns:44% minmax(0,1fr); align-items:start }
+  .recado:only-child img { height:auto; border-bottom:0 }
+}
+.recado time { font-family:var(--mono); font-size:12px; letter-spacing:.06em;
   color:var(--fraco) }
 /* ── o pé: como falar com o negócio, e o formulário que cai em Recebidos ── */
 .pe > .dentro.duas { display:grid; gap:var(--vao-secao) }
 @media (min-width:62rem) { .pe > .dentro.duas { grid-template-columns:1fr 1.35fr } }
-.contatos { display:grid; gap:var(--vao-bloco) }
+.contatos { display:grid; gap:var(--vao-bloco); align-content:start }
+.contatos .cabeca { margin-bottom:0; flex-wrap:wrap }
 .campo { display:flex; flex-direction:column; gap:3px; min-width:0 }
 .campo .valor { font-size:15px; font-weight:600; color:var(--tinta); text-decoration:none }
 .campo a.valor { border-bottom:2px solid var(--acento); align-self:flex-start;
   min-height:44px; display:inline-flex; align-items:center }
 .formulario form { display:grid; gap:14px }
-.formulario label { display:grid; gap:6px; font-family:var(--mono); font-size:10.5px;
+.formulario h3 { font-size:20px; line-height:1.25; margin:0 0 14px }
+.formulario .introducao { margin:0 0 28px; max-width:var(--leitura);
+  font-size:14px; color:var(--apoio) }
+.formulario label { display:grid; gap:6px; font-family:var(--mono); font-size:12px;
   letter-spacing:.08em; text-transform:uppercase; color:var(--fraco) }
 .formulario .opcional { text-transform:none; letter-spacing:0 }
 .formulario input,.formulario textarea { font:inherit; font-size:15px; color:var(--tinta);
-  background:var(--papel); border:2px solid var(--grade); border-radius:0;
+  background:var(--papel); border:2px solid var(--borda-necessaria); border-radius:0;
   padding:11px 13px; width:100%; min-height:44px }
 .formulario textarea { resize:vertical; min-height:86px }
 .formulario button { width:auto; justify-self:start }
@@ -162,37 +209,40 @@ footer > .dentro { max-width:var(--largura); margin:0 auto;
   padding:20px clamp(20px,3.6vw,44px); display:flex; align-items:center;
   justify-content:space-between; gap:16px; flex-wrap:wrap }
 footer a { display:inline-flex; align-items:center; gap:8px; min-height:44px;
-  color:var(--apoio); text-decoration:none; font-family:var(--mono); font-size:11px;
+  color:var(--apoio); text-decoration:none; font-family:var(--mono); font-size:12px;
   letter-spacing:.09em; text-transform:uppercase }
+:focus-visible { outline:2px solid var(--acento); outline-offset:3px }
+.carrossel:focus-visible { outline-offset:0 }
+section[id] { scroll-margin-top:14px }
+.lista .oque,.obra p,.campo .valor { min-width:0; overflow-wrap:anywhere }
+.obra:only-child { flex-basis:min(100%,21rem) }
+.estados { max-width:var(--largura); margin:28px auto 0;
+  padding:28px clamp(20px,3.6vw,44px); border-top:2px solid var(--grade) }
+.estados h2 { font-size:20px; margin:0 0 14px }
+.estados h3 { font-size:16px }
+.estados > p { max-width:var(--leitura) }
 </style></head><body>
 
 <header class="topo"><div class="dentro">
-  <span class="quem">
+  <div class="quem">
     <h1>Padaria Aurora</h1>
     <span class="cara mono">@padaria_aurora · Santo André</span>
-  </span>
-  <nav>
+  </div>
+  <a class="botao" href="#" data-papel="grafico"><span>Entrar</span></a>
+  <nav aria-label="Seções do negócio">
     <a href="#tem">o que temos</a><a href="#recados">recados</a><a href="#falar">falar</a>
   </nav>
-  <a class="botao" href="#" data-papel="grafico"><span>Entrar</span></a>
 </div></header>
 
 <main>
-  <!-- ⚠️ O traço de 2px entre faixas usa a MESMA `--grade` que reprova nos
-       campos, e aqui ele NÃO é declarado como objeto gráfico: separador de
-       seção não é informação nem controle (1.4.11 fala de "objeto gráfico
-       necessário para entender o conteúdo" e de limite de COMPONENTE). ⛔ Mas
-       é a peça que carrega o desenho inteiro — «o traço que faz a página
-       parecer construída em vez de empilhada» — e no escuro ela está em
-       2,8:1. Isento pela régua, quebrado pelo olho: os dois são verdade, e
-       quem for redesenhar precisa saber dos dois. -->
+  <!-- Separadores editoriais preservam --grade; molduras necessarias usam o alias local. -->
   <section class="faixa" id="tem"><div class="dentro">
     <div class="cabeca">
       <h2>O que temos</h2>
       <span class="ordinal"><b>01</b> / catálogo</span>
     </div>
     <div class="dupla">
-      <div class="lista" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py"><ol>
+      <div class="lista" data-papel="grafico"><ol>
         <li><span class="ordem">01</span>
           <p class="oque">Pão de fermentação natural, fornada às 7h e às 16h</p>
           <span class="fio" data-papel="ornamento"></span></li>
@@ -207,31 +257,31 @@ footer a { display:inline-flex; align-items:center; gap:8px; min-height:44px;
           <span class="fio" data-papel="ornamento"></span></li>
       </ol></div>
       <div>
-        <div class="carrossel">
-          <article class="obra" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py">
+        <div class="galeria-cabeca"><h3>Em destaque</h3></div>
+        <div class="carrossel" role="region" aria-label="Cartões do catálogo">
+          <article class="obra" data-papel="grafico">
             <img alt="reprodução: aqui entra a foto do trabalho" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%23312512'/%3E%3Ccircle cx='2' cy='1.5' r='.9' fill='%23F0A94B' opacity='.5'/%3E%3C/svg%3E">
             <div class="dizeres">
               <p>Fornada da manhã</p>
-              <span class="conta">01 / 07</span>
+              <span class="conta">01 / 03</span>
             </div>
           </article>
-          <article class="obra" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py">
+          <article class="obra" data-papel="grafico">
             <img alt="reprodução: aqui entra a foto do trabalho" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%23382F23'/%3E%3Crect x='.6' y='1' width='2.8' height='1' fill='%2379B58C' opacity='.5'/%3E%3C/svg%3E">
             <div class="dizeres">
               <p>Bolo de fubá inteiro</p>
-              <span class="conta">02 / 07</span>
+              <span class="conta">02 / 03</span>
             </div>
           </article>
           <!-- Obra SEM foto continua valendo: sai como cartão de texto do mesmo
                tamanho, e a fileira não abre buraco. -->
-          <article class="obra sem-foto" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py">
+          <article class="obra sem-foto" data-papel="grafico">
             <div class="dizeres">
               <p>Salgado para festa — cento de coxinha, risole e enroladinho</p>
-              <span class="conta">03 / 07</span>
+              <span class="conta">03 / 03</span>
             </div>
           </article>
         </div>
-        <span class="arraste">arraste para ver as outras 4</span>
       </div>
     </div>
   </div></section>
@@ -241,23 +291,25 @@ footer a { display:inline-flex; align-items:center; gap:8px; min-height:44px;
       <h2>Recados</h2>
       <span class="ordinal"><b>02</b> / o que é novo</span>
     </div>
-    <div class="lista" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py"><ol>
-      <li><span class="ordem">novo</span>
-        <div class="oque"><p style="margin:0">Sexta a padaria abre às 6h — tem pão doce
-          saindo do forno mais cedo por causa do feriado.</p>
-          <time>3 de junho</time></div></li>
-      <li><span class="ordem">—</span>
-        <div class="oque"><p style="margin:0">Voltamos com a torta de limão nos fins
-          de semana.</p><time>28 de maio</time></div></li>
-    </ol></div>
-    <div class="carrossel">
-      <article class="obra recado" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py">
-        <img alt="reprodução: aqui entra a foto do trabalho" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%231E1913'/%3E%3Cpath d='M0 3 L2 .8 L4 3Z' fill='%23F0A94B' opacity='.4'/%3E%3C/svg%3E">
-        <div class="dizeres">
-          <p>Vitrine cheia às 7h05</p>
-          <time>3 de junho</time>
-        </div>
-      </article>
+    <div class="dupla">
+      <div class="lista" data-papel="grafico"><ol>
+        <li><span class="ordem">novo</span>
+          <div class="oque"><p style="margin:0">Sexta a padaria abre às 6h — tem pão doce
+            saindo do forno mais cedo por causa do feriado.</p>
+            <time>3 de junho</time></div></li>
+        <li><span class="ordem">—</span>
+          <div class="oque"><p style="margin:0">Voltamos com a torta de limão nos fins
+            de semana.</p><time>28 de maio</time></div></li>
+      </ol></div>
+      <div><div class="carrossel" role="region" aria-label="Cartões de recados">
+        <article class="obra recado" data-papel="grafico">
+          <img alt="reprodução: aqui entra a foto do trabalho" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%231E1913'/%3E%3Cpath d='M0 3 L2 .8 L4 3Z' fill='%23F0A94B' opacity='.4'/%3E%3C/svg%3E">
+          <div class="dizeres">
+            <p>Vitrine cheia às 7h05</p>
+            <time>3 de junho</time>
+          </div>
+        </article>
+      </div></div>
     </div>
   </div></section>
 
@@ -275,19 +327,19 @@ footer a { display:inline-flex; align-items:center; gap:8px; min-height:44px;
         <span class="valor">Terça a domingo, 6h às 19h</span></div>
     </div>
     <div class="formulario">
+      <h3>Envie uma mensagem</h3>
+      <p class="introducao">Não tem conta? Não precisa — isto chega direto para
+        quem cuida da padaria.</p>
       <!-- ⭐ O que a pessoa escreve aqui cai em RECEBIDOS, dentro do okmigo, na
            conta do negócio — não num e-mail que ninguém lê. -->
-      <p class="recebido" data-papel="grafico">Recebemos. A Aurora responde por aqui.</p>
       <form>
         <label>seu nome
-          <input type="text" value="Joana Prado" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py"></label>
+          <input type="text" value="Joana Prado" data-papel="grafico"></label>
         <label>telefone ou e-mail
-          <input type="text" value="joana@example.com" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py"></label>
+          <input type="text" value="joana@example.com" data-papel="grafico"></label>
         <label>o que você precisa <span class="opcional">(opcional)</span>
-          <textarea rows="3" data-papel="grafico" data-reprova="--grade 2,77-2,84:1 sobre --bg e 2,25-2,33:1 sobre --tinte, no ESCURO, nas SEIS paletas · piso 3,0 (WCAG 1.4.11) · defeito do PRODUTO: o par grade/bg nao esta no PARES de paletas.py">Queria encomendar um bolo para sábado.</textarea></label>
+          <textarea rows="3" data-papel="grafico">Queria encomendar um bolo para sábado.</textarea></label>
         <button class="botao" type="button" data-papel="grafico"><span>Enviar</span></button>
-        <p class="rodape-form">Não tem conta? Não precisa — isto chega direto para
-          quem cuida da padaria.</p>
       </form>
     </div>
   </div></section>
@@ -297,4 +349,110 @@ footer a { display:inline-flex; align-items:center; gap:8px; min-height:44px;
   <span class="diz">página feita no okmigo</span>
   <a href="#">okmigo.com</a>
 </div></footer>
+<!-- Mostruario do estojo separado da pagina publica, sempre mensuravel. -->
+<aside class="estados formulario" aria-labelledby="estados-titulo">
+  <h2 id="estados-titulo">Demonstração de estados · formulário</h2>
+  <p>O formulário acima demonstra o preenchimento. Abaixo, o exemplo de confirmação.
+    Nesta reprodução, o botão Enviar não realiza envio.</p>
+  <h3>Confirmação</h3>
+  <p class="recebido" data-papel="grafico">Recebemos. A Aurora responde por aqui.</p>
+</aside>
+<script>
+// Melhoria progressiva: sem script, o navegador continua rolando o conteúdo.
+document.querySelectorAll('.carrossel').forEach((trilho, indice) => {
+  trilho.id = `carrossel-${indice + 1}`;
+  const nav = document.createElement('div');
+  nav.className = 'navegar-carrossel';
+  nav.hidden = true;
+  const dica = document.createElement('p');
+  dica.textContent = 'Deslize ou use as setas';
+  const acoes = document.createElement('div');
+  acoes.className = 'acoes';
+  const cabeca = trilho.closest('#tem')?.querySelector('.galeria-cabeca');
+  let botoes = [];
+  const posicoes = () => {
+    const origem = trilho.getBoundingClientRect().left;
+    const maximo = trilho.scrollWidth - trilho.clientWidth;
+    return [...trilho.children].map((cartao) => Math.min(maximo,
+      cartao.getBoundingClientRect().left - origem + trilho.scrollLeft));
+  };
+  function criarSetas() {
+    botoes = [-1, 1].map((direcao) => {
+      const botao = document.createElement('button');
+      botao.type = 'button';
+      if (cabeca) {
+        botao.dataset.papel = 'grafico';
+        const seta = document.createElement('span');
+        seta.dataset.papel = 'icone';
+        seta.setAttribute('aria-hidden', 'true');
+        seta.textContent = direcao < 0 ? '←' : '→';
+        botao.append(seta);
+      } else {
+        botao.textContent = direcao < 0 ? '←' : '→';
+      }
+      botao.setAttribute('aria-label', `${direcao < 0 ? 'Anterior' : 'Próximo'} — ${trilho.getAttribute('aria-label')}`);
+      botao.setAttribute('aria-controls', trilho.id);
+      botao.addEventListener('click', () => {
+        if (botao.disabled || botao.getAttribute('aria-disabled') === 'true') return;
+        const pontos = posicoes();
+        const atual = trilho.scrollLeft;
+        const alvo = direcao > 0
+          ? pontos.find((x) => x > atual + 1) ?? trilho.scrollWidth
+          : pontos.reverse().find((x) => x < atual - 1) ?? 0;
+        trilho.scrollTo({ left: alvo, behavior: 'instant' });
+      });
+      acoes.append(botao);
+      return botao;
+    });
+  }
+  criarSetas();
+  if (cabeca) {
+    nav.append(acoes);
+    cabeca.append(nav);
+  } else {
+    nav.append(dica, acoes);
+    trilho.after(nav);
+  }
+  function atualizar() {
+    const maximo = trilho.scrollWidth - trilho.clientWidth;
+    const rola = maximo > 1;
+    const inicio = trilho.getBoundingClientRect().left;
+    [...trilho.children].forEach((cartao) => {
+      const alinhado = trilho.scrollLeft > 1 &&
+        Math.abs(cartao.getBoundingClientRect().left - inicio) < 1;
+      cartao.classList.toggle('no-inicio-trilho', alinhado);
+    });
+    // Antes de recolher os controles, conserva o foco na região correspondente.
+    if (!rola && nav.contains(document.activeElement)) {
+      trilho.tabIndex = -1;
+      trilho.focus({ preventScroll: true });
+    }
+    nav.hidden = !rola;
+    if (cabeca) trilho.classList.toggle('com-controles', rola);
+    if (rola) trilho.tabIndex = 0;
+    else if (document.activeElement === trilho) trilho.tabIndex = -1;
+    else trilho.removeAttribute('tabindex');
+    if (cabeca) {
+      botoes[0].disabled = !rola || trilho.scrollLeft <= 1;
+      botoes[1].disabled = !rola || trilho.scrollLeft >= maximo - 1;
+    } else {
+      botoes[0].setAttribute('aria-disabled', String(!rola || trilho.scrollLeft <= 1));
+      botoes[1].setAttribute('aria-disabled', String(!rola || trilho.scrollLeft >= maximo - 1));
+    }
+  }
+  trilho.addEventListener('scroll', atualizar, { passive:true });
+  trilho.addEventListener('blur', () => {
+    if (trilho.scrollWidth - trilho.clientWidth <= 1) trilho.removeAttribute('tabindex');
+  });
+  const observar = new ResizeObserver(atualizar);
+  function observarCartoes() {
+    observar.disconnect();
+    observar.observe(trilho);
+    [...trilho.children].forEach((cartao) => observar.observe(cartao));
+    atualizar();
+  }
+  new MutationObserver(observarCartoes).observe(trilho, { childList:true });
+  observarCartoes();
+});
+</script>
 </body></html>
