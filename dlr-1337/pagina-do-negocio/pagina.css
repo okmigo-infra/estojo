@@ -1,0 +1,391 @@
+/* Página pública @nome — conjunto `negocio`, tema escuro.
+   Paleta vem do ramo em [data-ramo]. Medidas iguais em todo negócio. */
+
+:root {
+  --largura: 76rem;
+  --leitura: 38rem;
+  --vao-junto: 14px;
+  --vao-bloco: 28px;
+  --vao-secao: 56px;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+[data-ramo="forno"] {
+  --bg: #141109;
+  --papel: #1E1913;
+  --linha: #382F23;
+  --tinta: #F3EDE2;
+  --apoio: #B0A08A;
+  --fraco: #8E816D;
+  --acento: #F0A94B;
+  --fagulha: #79B58C;
+  --botao-txt: #141110;
+  --tinte: #312512;
+  --grade: #605C53;
+}
+[data-ramo="forja"] {
+  --bg: #12100E;
+  --papel: #1C1917;
+  --linha: #332D28;
+  --tinta: #EFEBE5;
+  --apoio: #A79C91;
+  --fraco: #8C8076;
+  --acento: #F08A4B;
+  --fagulha: #C4B49A;
+  --botao-txt: #141110;
+  --tinte: #2F2016;
+  --grade: #5D5A57;
+}
+[data-ramo="cuidado"] {
+  --bg: #0E1314;
+  --papel: #161D1E;
+  --linha: #283234;
+  --tinta: #E8F0F0;
+  --apoio: #93A6A6;
+  --fraco: #758788;
+  --acento: #57C6CC;
+  --fagulha: #BFA3DC;
+  --botao-txt: #141110;
+  --tinte: #172A2C;
+  --grade: #585E5F;
+}
+[data-ramo="tinta"] {
+  --bg: #100E14;
+  --papel: #191621;
+  --linha: #2E2839;
+  --tinta: #EDEAF2;
+  --apoio: #A199B0;
+  --fraco: #857D91;
+  --acento: #A98BF5;
+  --fagulha: #E88AAE;
+  --botao-txt: #141110;
+  --tinte: #241E31;
+  --grade: #5B595F;
+}
+
+* { box-sizing: border-box }
+html { color-scheme: dark }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--tinta);
+  font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit }
+
+.dentro {
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding-left: clamp(20px, 3.6vw, 44px);
+  padding-right: clamp(20px, 3.6vw, 44px);
+}
+
+/* ── topo: identidade + âncoras + Entrar (se a dona ligou) ── */
+.topo {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--bg);
+}
+.topo .dentro {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 56px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.quem { min-width: 0; margin-right: auto }
+.quem h1 {
+  margin: 0;
+  font-size: clamp(16px, 3.2vw, 22px);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+.cara {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--fraco);
+}
+.topo nav { display: flex; gap: 18px; flex: none }
+.topo nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 3px 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+.topo nav a:hover { border-bottom-color: var(--acento) }
+
+/* estreito: âncora some, Entrar fica */
+@media (max-width: 44rem) {
+  .topo nav { display: none }
+}
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 22px;
+  border-radius: 0;
+  background: var(--acento);
+  border: 2px solid var(--acento);
+  text-decoration: none;
+  cursor: pointer;
+  flex: none;
+}
+.botao span {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 11.5px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--botao-txt);
+}
+
+/* ── faixas: a ordem é da dona; o ritmo é tinta / vão, não um traço que some ── */
+.faixa { scroll-margin-top: 64px }
+.faixa > .dentro {
+  padding-top: clamp(32px, 4.5vw, 56px);
+  padding-bottom: clamp(36px, 5.5vw, 64px);
+}
+.faixa.tingida { background: var(--tinte); --fraco: var(--apoio) }
+
+.cabeca {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: clamp(18px, 2.6vw, 28px);
+}
+@media (min-width: 46rem) {
+  .cabeca { flex-direction: row; align-items: baseline; gap: 16px }
+}
+.cabeca h2 {
+  margin: 0;
+  font-size: clamp(26px, 4.4vw, 38px);
+  font-weight: 800;
+  letter-spacing: -.025em;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+.ordinal {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--fraco);
+  white-space: nowrap;
+}
+.ordinal b { color: var(--acento); font-weight: 500 }
+
+/* ── contato ── */
+.contatos { display: grid; gap: var(--vao-bloco); max-width: var(--leitura) }
+.campo { display: flex; flex-direction: column; gap: 4px; min-width: 0 }
+.rot {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--fraco);
+}
+.valor {
+  font-size: clamp(18px, 3vw, 22px);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--tinta);
+  text-decoration: none;
+}
+a.valor {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  min-height: 44px;
+  border-bottom: 2px solid var(--acento);
+}
+.valor.oco {
+  display: block;
+  min-height: 1.4em;
+  max-width: 16rem;
+  border-bottom: 1px solid var(--fraco);
+  font-weight: 400;
+  font-size: 15px;
+}
+
+/* ── vitrine ── */
+.lista {
+  border: 2px solid var(--fraco);
+  background: var(--papel);
+  max-width: var(--leitura);
+}
+.lista ol { margin: 0; padding: 0; list-style: none }
+.lista li {
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--linha);
+}
+.lista li:last-child { border-bottom: 0 }
+.lista .ordem {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--fraco);
+}
+.lista .oque { margin: 0; font-size: 16px }
+
+/* ── feitos / avisos com foto: o corte ensina a arrastar ── */
+.carrossel {
+  display: flex;
+  gap: var(--vao-junto);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  padding: 2px 0 12px;
+  max-width: var(--leitura);
+  scrollbar-width: thin;
+  scrollbar-color: var(--apoio) transparent;
+}
+.obra {
+  flex: 0 0 78%;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  background: var(--papel);
+  border: 1px solid var(--fraco);
+  border-radius: 0;
+}
+.obra .foto {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: var(--tinte);
+}
+.obra:nth-child(2) .foto { background: var(--linha) }
+.obra:nth-child(3) .foto {
+  background: linear-gradient(160deg, var(--tinte) 55%, var(--acento) 55%);
+}
+.obra:nth-child(4) .foto { background: var(--papel) }
+.obra:nth-child(5) .foto {
+  background: linear-gradient(20deg, var(--linha) 40%, var(--fagulha) 40%);
+}
+.obra:nth-child(6) .foto { background: var(--tinte) }
+.obra:nth-child(7) .foto {
+  background: linear-gradient(135deg, var(--acento) 0 42%, var(--tinte) 42%);
+}
+.obra .dizeres {
+  padding: 12px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+.obra p { margin: 0; font-size: 14.5px; line-height: 1.45; font-weight: 600 }
+.obra .conta,
+.obra time {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--fraco);
+}
+.obra.sem-foto { min-height: 12rem; justify-content: flex-end }
+.arraste {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--fraco);
+}
+
+/* avisos só-texto: lista, não carrossel */
+.recados { display: grid; gap: var(--vao-bloco); max-width: var(--leitura) }
+.recado { margin: 0 }
+.recado p { margin: 0 0 6px; font-size: 16px }
+.recado time {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--fraco);
+}
+
+/* ── vazio: o bloco está ligado e não tem o que mostrar ── */
+.oco-bloco {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--fraco);
+}
+
+/* ── formulário (só existe se a dona ligou) ── */
+.formulario { max-width: var(--leitura) }
+.formulario form { display: grid; gap: 14px }
+.formulario label {
+  display: grid;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--fraco);
+}
+.formulario input,
+.formulario textarea {
+  font: inherit;
+  font-size: 15px;
+  color: var(--tinta);
+  background: var(--papel);
+  border: 2px solid var(--fraco);
+  border-radius: 0;
+  padding: 11px 13px;
+  width: 100%;
+  min-height: 44px;
+}
+.formulario textarea { resize: vertical; min-height: 86px }
+.formulario button { width: auto; justify-self: start }
+.formulario .cai {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--fraco);
+}
+
+.convite {
+  margin: 0 0 var(--vao-junto);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.pe {
+  padding: 20px 0;
+  color: var(--fraco);
+}
+.pe .diz {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
