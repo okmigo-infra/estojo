@@ -1,0 +1,15 @@
+{
+  "_por_que": "Os casos usam telefones inventados para parecer reais. O conferidor recusa qualquer número de celular que NÃO esteja nesta lista — um número de gente de verdade não entra no repositório público. Acrescentar aqui é declarar que o número é inventado.",
+  "telefones": [
+    "(11) 99999-0000",
+    "(11) 98888-1234",
+    "11988881234",
+    "(13) 99777-2211",
+    "11999990000"
+  ],
+  "dominios_de_email": [
+    "example.com",
+    "example.org",
+    "okmigo.com"
+  ]
+}
