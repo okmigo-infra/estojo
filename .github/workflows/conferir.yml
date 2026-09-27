@@ -1,0 +1,33 @@
+# O gate do estojo (OMINFRA-851): toda PR — inclusive de fora, o repo é público
+# — passa pelo conferidor e pela geração antes de chegar à main.
+#
+# ⛔ `pull_request`, nunca `pull_request_target`: a PR de fork roda sem segredo
+# nenhum, e este workflow não precisa de nenhum. Permissão só de leitura.
+# ⭐ Ações pinadas por SHA de commit (a tag `v4` anda sozinha); a versão fica no
+# comentário (OMINFRA-835).
+name: conferir
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  conferir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "20"
+      - name: conteúdo, tokens, links, segredo e dado real
+        run: node ferramentas/conferir.mjs
+      - name: a casca se gera do conteúdo
+        run: |
+          npm run -s casca
+          test -s casca/index.html || { echo "✗ a casca não gerou o índice" >&2; exit 1; }
+      - name: a página do negócio (Alisson) se gera
+        run: node alisson/pagina-do-negocio/gerar.mjs

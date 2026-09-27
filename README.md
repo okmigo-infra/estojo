@@ -143,3 +143,7 @@ sem tradução no meio.
 
 ⚠️ O extrator de tokens exige o produto ao lado e é gesto nosso, nunca de quem
 desenha: você consome o JSON.
+
+## Contribuir e licença
+
+Antes de abrir uma PR, rode `node ferramentas/conferir.mjs`, o mesmo gate do CI. Detalhes em [`CONTRIBUTING.md`](CONTRIBUTING.md). Licença: [Apache 2.0](LICENSE).
