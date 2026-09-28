@@ -1,0 +1,10 @@
+{
+  "valores": {
+    "superficies": {"contar_arquivos": ["conteudo/*.json"]},
+    "casos:pagina-do-negocio": {"json": "conteudo/pagina-do-negocio.json", "contar": "casos"},
+    "casos:barra-de-apps": {"json": "conteudo/barra-de-apps.json", "contar": "casos"},
+    "casos:conversa": {"json": "conteudo/conversa.json", "contar": "casos"},
+    "casos:tarefas": {"json": "conteudo/tarefas.json", "contar": "casos"},
+    "casos:superficie-declarada": {"json": "conteudo/superficie-declarada.json", "contar": "casos"}
+  }
+}

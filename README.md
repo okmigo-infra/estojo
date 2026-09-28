@@ -12,11 +12,25 @@ conserta a tela.
 segredo, dado de gente real. Se você precisou de algum deles, diga — provavelmente
 falta um caso aqui, não um acesso.
 
+## Retrato em 28/09/2026
+
+| | estado | evidência |
+|---|---|---|
+| **o que é** | conteúdo público, Apache-2.0 desde 27/09: <!-- conferir: superficies -->5<!-- /conferir --> superfícies em [`conteudo/`](conteudo/), os tokens em [`tokens/`](tokens/) e as propostas de quem desenha de fora ([`alisson/`](alisson/), [`dlr-1337/`](dlr-1337/), [`propostas/`](propostas/)). Nenhum código do produto depende daqui | [`LICENSE`](LICENSE); `conteudo/*.json`, contados pelo CI |
+| **publicar** | merge na `main`. Não há deploy, tag nem ambiente | [`.github/workflows/conferir.yml`](.github/workflows/conferir.yml) só confere |
+| **o gate** | em toda PR desde 27/09 (OMINFRA-851): `ferramentas/conferir.mjs` (JSON, casos, links, credencial, e-mail, celular) e a geração da casca. Desde 28/09 (OMINFRA-832), também este README, pelo `conferir/` | o mesmo workflow |
+| **a `main`** | protegida (28/09) | a API do GitHub: `branches/main` → `protected: true` |
+
+**Riscos (28/09):** os tokens envelhecem calados. O
+`ferramentas/tokens.mjs` lê o código do produto (`../tyego`) e não roda no CI,
+então a cor que muda no produto não reprova nada aqui. **Próximo passo:** rodá-lo
+à mão quando o produto mudar de token.
+
 ## Comece por aqui
 
     npm i && npm run casca
 
-Isso escreve `casca/` — cinco superfícies do produto em **HTML sem uma linha de
+Isso escreve `casca/` — <!-- conferir: superficies -->cinco<!-- /conferir --> superfícies do produto em **HTML sem uma linha de
 CSS**: o que cada uma precisa mostrar, quem a abre, o que varia, e os casos. Abra
 `casca/index.html` no navegador.
 
@@ -31,11 +45,11 @@ CSS conserta — a hierarquia se prova antes da primeira cor.
 
 | superfície | o que ela é | casos |
 |---|---|---|
-| [`pagina-do-negocio`](conteudo/pagina-do-negocio.json) | ⭐ **a de maior alcance**: o endereço que a dona manda no WhatsApp, aberto por quem não tem conta | 4 |
-| [`barra-de-apps`](conteudo/barra-de-apps.json) | o índice do que existe para aquela conta, nos dois clientes | 3 |
-| [`conversa`](conteudo/conversa.json) | a tela mais usada do produto e a menos desenhada | 3 |
-| [`tarefas`](conteudo/tarefas.json) | a lista densa, e as **quatro** aparências dela | 4 |
-| [`superficie-declarada`](conteudo/superficie-declarada.json) | o vocabulário que todo serviço integrado usa | 3 |
+| [`pagina-do-negocio`](conteudo/pagina-do-negocio.json) | ⭐ **a de maior alcance**: o endereço que a dona manda no WhatsApp, aberto por quem não tem conta | <!-- conferir: casos:pagina-do-negocio -->4<!-- /conferir --> |
+| [`barra-de-apps`](conteudo/barra-de-apps.json) | o índice do que existe para aquela conta, nos dois clientes | <!-- conferir: casos:barra-de-apps -->3<!-- /conferir --> |
+| [`conversa`](conteudo/conversa.json) | a tela mais usada do produto e a menos desenhada | <!-- conferir: casos:conversa -->6<!-- /conferir --> |
+| [`tarefas`](conteudo/tarefas.json) | a lista densa, e as **quatro** aparências dela | <!-- conferir: casos:tarefas -->4<!-- /conferir --> |
+| [`superficie-declarada`](conteudo/superficie-declarada.json) | o vocabulário que todo serviço integrado usa | <!-- conferir: casos:superficie-declarada -->3<!-- /conferir --> |
 
 Cada arquivo traz **o que ela faz**, **quem abre**, **o que varia**, **o que
 precisa sobreviver ao redesenho** e os **casos**. O JSON é a fonte; a casca é

@@ -25,6 +25,11 @@ jobs:
           node-version: "20"
       - name: conteúdo, tokens, links, segredo e dado real
         run: node ferramentas/conferir.mjs
+      # OMINFRA-832: o README não contradiz o conteúdo (as superfícies e os
+      # casos contados, datas no retrato). Sem rede, só a biblioteca padrão do
+      # Python do runner; o que ele confere está em `conferir/readme.json`.
+      - name: o README não contradiz o repo (deriva documental)
+        run: python3 conferir/conferir_readme.py
       - name: a casca se gera do conteúdo
         run: |
           npm run -s casca
